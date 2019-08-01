@@ -2,50 +2,53 @@
 % Please edit documentation in R/check.types.R
 \name{check.types}
 \alias{check.types}
-\title{Verify types of variable.}
+\title{Verify types of variable}
 \usage{
-check.types(data.to.work, message = 0)
+check.types(data.to.work, show.message = 0)
 }
 \arguments{
-\item{data.to.work}{is a data frame containing the variables to be verified.}
+\item{data.to.work}{is a data set containing the variables to be verified.}
 
-\item{message}{is a parameter indicating if the function will or not show a message.}
+\item{show.message}{is a parameter indicating if the function will or not show a message.}
 }
 \value{
-A variable with the code indicating the type of variable and a message (or not).
+A variable with the code indicating the type of variable and a message (or not)
 }
 \description{
-Verify what are the types of variables the dataset has.
-}
-\details{
-This function receives a dataset as parameter and check each type of variable returning a number indicating the type oa variables. 
-The variables can be 1=integer, 2=numeric, 3=factor, 4=integer and numeric, 5=integer and  factor, 6=numeric and factor or 7=integer, numeric and factor.
+This function receives a data set as parameter and check each type of variable returning a number indicating the type of variables in the whole data set.
+The variables can be 1=integer, 2=numeric, 3=factor, 4=integer and numeric, 5=integer and  factor, 6=numeric and factor, 7=integer,
+numeric and factor, 8=character.
 }
 \examples{
 # Clean environment
 closeAllConnections()
 rm(list=ls())
+# Set enviroment
+# setwd("to your working directory")
 # Load packages
 library(bnpa)
-# Use working datasets from package
-data.to.work <- dataQuantC
-head(data.to.work)
-####################################################################################
-# check.types.R - Verify types of variable.
-####################################################################################
-#Check and return a numeric value
-check.types(data.to.work, message = 1)
-# Adding random data to data.to.work, function will return TRUE
-data.to.work$Z <- round(runif(500, min=0, max=1000),2)
+# Use working data sets from package
+data(dataQuantC)
+# Show first lines of data set
+head(dataQuantC)
+# Check and return a numeric value
+show.message <- 1
+bnpa::check.types(dataQuantC, show.message)
+# Adding random data to dataQuantC, function will return TRUE
+dataQuantC$Z <- round(runif(500, min=0, max=1000),2)
 # Converting the numeric variable into factor
-data.to.work$Z <- factor(data.to.work$Z)
+dataQuantC$Z <- factor(dataQuantC$Z)
 # Check and return a numeric value correspondig to: 1=integer, 2=numeric, 3=factor, 4=integer and
 # numeric, 5=integer and  factor, 6=numeric and factor or 7=integer, numeric and factor.
-check.types(data.to.work, message = 1)
+show.message <- 1
+bnpa::check.types(dataQuantC, show.message)
 # Supressing the message
-check.types(data.to.work, message = 0)
+show.message <- 0
+bnpa::check.types(dataQuantC, show.message)
+}
+\references{
+GUJARATI, Damodar N. Basic econometrics. Tata McGraw-Hill Education, 2009.
 }
 \author{
 Elias Carvalho
 }
-

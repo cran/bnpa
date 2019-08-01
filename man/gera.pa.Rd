@@ -2,51 +2,58 @@
 % Please edit documentation in R/gera.pa.R
 \name{gera.pa}
 \alias{gera.pa}
-\title{Generates a model as input to execute a Path Analysis (PA).}
+\title{Generates a PA model}
 \usage{
-gera.pa(bn.averaged, data.to.work, pa.name, pa.imgname)
+gera.pa(bn.structure, data.to.work, pa.name, pa.imgname, bn.algorithm,
+  bn.score.test, outcome.var)
 }
 \arguments{
-\item{bn.averaged}{is a Bayesian Network structure learned from data.}
+\item{bn.structure}{is a BN structure learned from data.}
 
 \item{data.to.work}{is a data frame containing the variables of the BN.}
 
-\item{pa.name}{is a variable to store the name of file to save Path Analysis parameters.}
+\item{pa.name}{is a variable to store the name of file to save PA parameters.}
 
-\item{pa.imgname}{is a variable to store the name of file to save Path Analysis graph.}
-}
-\value{
-pa.model.fit an object of class lavaan.
+\item{pa.imgname}{is a variable to store the name of file to save PA graph.}
+
+\item{bn.algorithm}{is a list of algorithms to learn the BN structure.}
+
+\item{bn.score.test}{is a list of tests to be used during BN structure learning.}
+
+\item{outcome.var}{is the outcome variable.}
 }
 \description{
-Builds a model as input to Path Analysis from a Bayesian Network (BN) learned.
-}
-\details{
-This function receives a Bayesian Networks structure and a dataset, calculates 
-the correlation matrix from data, scan all columns of dataset, scan all parents 
-of each column variable and build a Path Analysis model string. Then run the Path Analysis model 
-using Strucutural Equation Model functions and export a Path Analysis graph figure with 
-'semPaths' function and also export a Path Analysis model summary information.
+This function receives a BN structure learned, the data set and some parameters and build a PA input model string. Then run the PA model using Structural Equation Model functions and export a PA graph and a PA model summary information.
 }
 \examples{
+\dontrun{
 # Clean environment
 closeAllConnections()
 rm(list=ls())
+# Set enviroment
+# setwd("To your working directory")
 # Load packages
 library(bnpa)
-library(bnlearn)
-# load datasets from package
-data.to.work<-dataQuantC # Pre-Loaded
-# Learn Bayesian Networks structure
-bn.structure <- hc(data.to.work)
-# Set the name of a doc to save Path Analysis parameters
-pa.name = "docPAHC"
-# Set the name of an image with Path Analysis graph
-pa.imgname = "imgPAHC"
-# Generates the Path Analysis model from Bayesian Networks structure
-pa.model.fit <- gera.pa(bn.structure, data.to.work, pa.name, pa.imgname)
+# Load data sets from package
+data(dataQualiN)
+# Show first lines
+head(dataQualiN)
+# Learn BN structure
+bn.structure <- bnlearn::hc(dataQualiN)
+bnlearn::graphviz.plot(bn.structure)
+# Set variables
+pa.name<-"docPAHC"
+pa.imgname<-"imgPAHC"
+bn.algorithm<-"hc"
+bn.score.test<-"aic-g"
+outcome.var<-"D"
+# Generates the PA model from bn structure
+gera.pa(bn.structure, dataQualiN, pa.name, pa.imgname, bn.algorithm, bn.score.test, outcome.var)
+}
+}
+\references{
+Yves Rosseel (2012). lavaan: An R Package for Structural Equation Modeling. Journal of Statistical Software, 48(2),1-36.
 }
 \author{
 Elias Carvalho
 }
-

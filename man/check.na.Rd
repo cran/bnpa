@@ -2,41 +2,40 @@
 % Please edit documentation in R/check.na.R
 \name{check.na}
 \alias{check.na}
-\title{Verify variables with NA.}
+\title{Verify variables with NA}
 \usage{
 check.na(data.to.work)
 }
 \arguments{
-\item{data.to.work}{is a data frame containing the variables to check NAs.}
+\item{data.to.work}{is a data set containing the variables to check NAs.}
 }
 \value{
 the number and percent of NAs.
 }
 \description{
-Receives a dataset and check the existence of NAs.
-}
-\details{
-This function receives a dataset and calculates the number of NAs to each variable, then
+This function receives a data set and calculates the number of NAs to each variable, then
 calculates the percentual of existing NAs and inform the variables, number/percent of NAs.
 }
 \examples{
-# Clean Environment
+# Clean environment
 closeAllConnections()
 rm(list=ls())
+# Set enviroment
+# setwd("to your working directory")
 # Load packages
 library(bnpa)
-# Use working datasets from package
-data.to.work <- dataQuantC
-head(data.to.work)
-###################################################################################
-# check.NAs.R - Verify variables with NA..
-###################################################################################
-data.to.work <- as.data.frame(lapply(data.to.work, function(cc) cc[ sample(c(TRUE, NA),
-               prob = c(0.85, 0.15), size = length(cc), replace = TRUE) ]))
+# Use working data sets from package
+data(dataQuantC)
+head(dataQuantC)
+# Adding NAs to dataQuantC # credits for the random NA code for: https://goo.gl/Xj6caY
+dataQuantC <- as.data.frame(lapply(dataQuantC, function(cc) cc[ sample(c(TRUE, NA),
+                             prob = c(0.85, 0.15), size = length(cc), replace = TRUE) ]))
 # Checking the Nas
-check.na(data.to.work)
+check.na(dataQuantC)
+}
+\references{
+LITTLE, R J A; RUBIN, D B. Statistical analysis with missing data. John Wiley & Sons, 2014.
 }
 \author{
 Elias Carvalho
 }
-

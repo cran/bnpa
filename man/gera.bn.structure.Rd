@@ -2,36 +2,70 @@
 % Please edit documentation in R/gera.bn.structure.R
 \name{gera.bn.structure}
 \alias{gera.bn.structure}
-\title{Learn the Bayesian Network structure from data}
+\title{Learn the Bayesian Network structure from data and build a PA model}
 \usage{
-gera.bn.structure(data_bn, bn.learn.algorithm, wl, bl, type.variable,
-  nreplicates = 100)
+gera.bn.structure(data.to.work, white.list = "", black.list = "",
+  nreplicates = 1000, cb.algorithms = c("gs", "iamb", "fast.iamb",
+  "inter.iamb", "mmpc", "si.hiton.pc"), sb.algorithms = c("hc", "tabu"),
+  cb.tests = "", sb.tests = "", optimized.option = "FALSE",
+  outcome.var, build.pa)
 }
 \arguments{
-\item{data_bn}{is a data frame containing the variables of the Bayesian Networks to be learned.}
+\item{data.to.work}{is a data from which the BN structure will be learned.}
 
-\item{bn.learn.algorithm}{is a list of algorithms (present in bnlearn) to be used in Bayesian Networks learning process.}
+\item{white.list}{is a list of mandatory connections of BN structure to be created.}
 
-\item{wl}{is a list with a couple of variables to build the white list.}
+\item{black.list}{is a list of forbiden connections of BN structure to be created.}
 
-\item{bl}{is a list with a couple of variables to build the black list.}
+\item{nreplicates}{is how many times the boostrap will run.}
 
-\item{type.variable}{is the type of variable inside the data frame}
+\item{cb.algorithms}{the name of constrained-based algorithms.}
 
-\item{nreplicates}{is the number os procedures to be executing during bootstraping.}
-}
-\value{
-The Bayesian Networks strucutre learn bootstrapped
+\item{sb.algorithms}{the name of score-based algorithms.}
+
+\item{cb.tests}{the name of tests for constrained-based algorithms.}
+
+\item{sb.tests}{the name of network scores for score-based algorithms.}
+
+\item{optimized.option}{a paremeter of bnlearn package to optmize the BN learn structre learning.}
+
+\item{outcome.var}{is the outcome (dependent) variable.}
+
+\item{build.pa}{indicates if the process will bulld a PA model or not.}
 }
 \description{
-Receives a dataset and learn the structure of Bayesian Network (BN) diagram using algorithms implemented in bnlearn package.
+This function receives a data set, a list of parameters to learn the BN structure based on this data set. Then with the BN ready it will build a PA model if required. The process will then save the graphs of BN and PA and PA parameters.
 }
-\details{
-This function receives a dataset, a list of algorithms, a list of required nodes and another list of forbidden
-nodes, the type of variables in the dataset and the number of replicates the bootstrap process will execute as
-parameters. Then it learn the Bayesian Network structure and return it .
+\examples{
+\dontrun{
+# Clean environment
+closeAllConnections()
+rm(list=ls())
+# Set environment
+# setwd("To your working directory")
+# Load packages
+library(bnpa)
+# Load Data
+data(dataQualiN)
+# Set variables to work
+nreplicates = 1000
+white.list <- NULL
+black.list <- "L-T"
+cb.algorithms = c("gs")
+sb.algorithms = c("hc")
+cb.tests = "jt"
+sb.tests = "aic"
+optimized.option="FALSE"
+outcome.var = "E"
+build.pa = 0
+# Learn the BN from data and save results (data & images)
+gera.bn.structure(dataQualiN, white.list, black.list, nreplicates, cb.algorithms,sb.algorithms,
+                 cb.tests, sb.tests, optimized.option, outcome.var, build.pa)
+}
+}
+\references{
+Scutari M (2017). Bayesian Network Constraint-Based Structure Learning Algorithms: Parallel and Optimized Implementations in the bnlearn R Package. Journal of Statistical Software, 77(2), 1-20.
 }
 \author{
 Elias Carvalho
 }
-

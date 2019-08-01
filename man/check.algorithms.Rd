@@ -7,33 +7,27 @@
 check.algorithms(bn.learn.algorithms)
 }
 \arguments{
-\item{bn.learn.algorithms}{is a list of algorithms (present in bnlearn) to be used in BN structure learning pocess.}
-}
-\value{
-NULL.
+\item{bn.learn.algorithms}{is a list of algorithms (present in bnlearn package) to be used in BN structure learning pocess in bnpa.}
 }
 \description{
-This function verifies if a list of BN learning algorithms passed has allowed algorithms.
-}
-\details{
-This function receives a list of algorithms and verifies if they are allowed to learn the BN structure.
+This function receives a list of algorithms of bnlearn package and check if it would be used in bnpa package.
 }
 \examples{
 # Clean environment
 closeAllConnections()
 rm(list=ls())
+# Set enviroment
+# setwd("~/your working directory")
 # Load packages
 library(bnpa)
 # Set what BN learning algorithms will be used
-bn.learn.algorithms <- c("hc", "mmhc")
+bn.learn.algorithms <- c("gs", "hc")
 # Check these algorithms
 check.algorithms(bn.learn.algorithms)
-# Changing for not allowed algorithms
-bn.learn.algorithms <- c("tabu-search", "mhc")
-# Check these algorithms
-check.algorithms(bn.learn.algorithms)
+}
+\references{
+Scutari M (2017). Bayesian Network Constraint-Based Structure Learning Algorithms: Parallel and Optimized Implementations in the bnlearn R Package. Journal of Statistical Software, 77(2), 1-20.
 }
 \author{
 Elias Carvalho
 }
-

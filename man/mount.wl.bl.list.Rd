@@ -4,53 +4,52 @@
 \alias{mount.wl.bl.list}
 \title{Mounts a white or black list}
 \usage{
-mount.wl.bl.list(vlist)
+mount.wl.bl.list(black_or_white_list)
 }
 \arguments{
-\item{vlist}{is a list of couple of variables.}
+\item{black_or_white_list}{is a list of couple of variables.}
 }
 \value{
-A new data frame with the 'from' and to 'to' variables.
+A new data frame with the 'from' and 'to' variables
 }
 \description{
-Using a list of variables passed as parameter this function mounts a white list or a black list in bnlearn package sintax.
-}
-\details{
-This function receives a list with one or more couple of variables and mount a new data frame in "bnlearn"
-syntax. The final result must return an object similar to "data.frame(from = c('B', 'F'), to = c('F', 'B'))"
+This function receives a simple list with one or more couple of variables and mount a new data frame in "bnlearn" syntax.
+The final result must return an object similar to the result of bnlearn command "data.frame(from = c('B', 'F'), to = c('F', 'B'))" that is more complex syntax.
 }
 \examples{
 # Clean environment
 closeAllConnections()
 rm(list=ls())
+# Set enviroment
+# setwd("To your working directory")
 # Load packages
 library(bnpa)
 library(bnlearn)
 # Load data sets from package
-data.to.work<-dataQuantC
-head(data.to.work)
-###################################################################################
-# mount.wl.bl.list.R - Mounts a white or black list.
-###################################################################################
+data(dataQuantC)
+# Show the first lines of data
+head(dataQuantC)
+# Learn the BN structure without black and white list
+bn.structure <- hc(dataQuantC)
+# Split graph panel in 2 columns
+par(mfrow=c(1,2))
+# Show the BN structure
+bnlearn::graphviz.plot(bn.structure)
 # Mounting the black list
-vlist <- ("A-C,D-F")
-bl <- mount.wl.bl.list(vlist)
-# Mounting the white list
-vlist <- ("A-B,D-G")
-wl <- mount.wl.bl.list(vlist)
-# Learn the Bayesian Networks structure without black and white list
-bn.structure <- hc(data.to.work, whitelist = wl, blacklist = bl)
-# Set the name of a text to save the Bayesian Networks parameters
-param.name <- "docbnparamHC.txt"
-# Generates a Bayesian Networks parameters from the Bayesian Networks structure and 
-# write a text file with this
-bn.param <- gera.bn.param(bn.structure, data.to.work, param.name)
-# Set the graph name
-graph.name <- "imgBNHC"
-# Save the graph
-mount.graph(bn.structure, bn.param, graph.name, data.to.work)
+black.list <- ("A-C,D-F")
+black.list <- mount.wl.bl.list(black.list)
+black.list
+white.list <- ("A-B,D-G")
+white.list <- mount.wl.bl.list(white.list)
+white.list
+# Learn the BN structure with black and white list
+bn.structure <- hc(dataQuantC, whitelist = white.list, blacklist = black.list)
+# Show the BN structure
+bnlearn::graphviz.plot(bn.structure)
+}
+\references{
+Scutari M (2017). Bayesian Network Constraint-Based Structure Learning Algorithms: Parallel and Optimized Implementations in the bnlearn R Package. Journal of Statistical Software, 77(2), 1-20.
 }
 \author{
 Elias Carvalho
 }
-
